@@ -1,5 +1,6 @@
 import express from "express";
 import { readUtils, readAll } from "./read.utils.js";
+import { insertOneColl } from "./insert.utils.js";
 
 const app = express();
 app.use(express.json());
@@ -13,6 +14,23 @@ app.get("/", async (req, res) => {
 
 app.get("/users", async (req, res) => {
   const userColl = await readAll();
+  console.log(userColl);
+  res.json(userColl);
+});
+
+app.get("/add", async (req, res) => {
+  const newDocument = {
+    userName: req.query.userName || "Sunil-Default",
+    emailId: req.query.emailId || "sunil@gmail.com",
+  };
+  const userColl = await insertOneColl(newDocument);
+  console.log(userColl);
+  res.json(userColl);
+});
+
+app.post("/add", async (req, res) => {
+  const newDocument = req.body;
+  const userColl = await insertOneColl(newDocument);
   console.log(userColl);
   res.json(userColl);
 });
