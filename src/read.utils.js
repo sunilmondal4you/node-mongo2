@@ -11,3 +11,13 @@ export const readUtils = async () => {
   client.close();
   return userDocument;
 };
+
+export const readAll = async () => {
+  const client = new MongoClient(uri);
+  const userCollection = client.db("practice").collection("users");
+
+  const userList = await userCollection.find({}).toArray();
+
+  client.close();
+  return userList;
+};
